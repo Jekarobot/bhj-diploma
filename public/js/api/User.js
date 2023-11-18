@@ -9,10 +9,8 @@ class User {
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
-  static setCurrent(user) {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    }
+  static setCurrent(user) { 
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   /**
@@ -29,10 +27,7 @@ class User {
    * */
   static current() {
     let user = localStorage.getItem('user');
-    if (user) {
-      user = JSON.parse(user);
-    }
-    return user
+    return JSON.parse(user);
   }
 
   /**
@@ -40,10 +35,9 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-    const options = {
+    createRequest({
       url: this.URL + '/current',
       method: 'GET',
-      data: data,
       callback: (err, response) => {
       if (response.success) {
         this.setCurrent(response.user);
@@ -52,10 +46,8 @@ class User {
         console.log(response.error);
       }
       callback(err, response);
-    }
-    };
-
-    createRequest(options);
+      }
+    });
   }
 
   /**
@@ -86,7 +78,7 @@ class User {
    * User.setCurrent.
    * */
   static register(data, callback) {
-    const options = {
+    createRequest({
       url: this.URL + '/register',
       method: 'POST',
       data: data,
@@ -98,9 +90,8 @@ class User {
         }
         callback(err, response);
       }
-    };
-
-    createRequest(options);
+    });
+    
   }
 
   /**
@@ -108,18 +99,15 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout(callback) {
-    const options = {
+    createRequest({
       url: this.URL + '/logout',
       method: 'POST',
-      data: data,
       callback: (err, response) => {
         if (response.success) {
           this.unsetCurrent();
         }
         callback(err, response);
       }
-    };
-
-    createRequest(options);
+    });
   }
 }

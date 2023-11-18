@@ -5,8 +5,8 @@
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
     const method = options.method || 'GET';
-    const url = options.url || '';
-    const callback = function (err, response) {
+    let url = options.url || '';
+    const callback = options.callback || function (err, response) {
       if (err) {
           console.log(err);
       } else {
@@ -18,7 +18,7 @@ const createRequest = (options = {}) => {
   
     if (options.data) {
       if (method === 'GET') {
-          data = JSON.stringify(options.data);
+        url += '?' + new URLSearchParams(options.data).toString();
       } else {
           data = new FormData();
           for (let key in options.data) {
@@ -30,24 +30,14 @@ const createRequest = (options = {}) => {
     xhr.open(method, url, true);
     xhr.responseType = 'json';
   
-    if (method === 'GET') {
-      xhr.setRequestHeader('Content-Type', 'application/json');
-    }  
-  
     xhr.onload = function () {
-      if (xhr.status >= 200 && xhr.status < 300) {
           callback(null, xhr.response);
-      } else {
-          callback(new Error(xhr.statusText), null);
-      }
     };
   
     xhr.onerror = function () {
       callback(new Error('Network Error'), null);
     };
-  
-  
-  
+    
     xhr.send(data);
   };
   
