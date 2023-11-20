@@ -16,11 +16,10 @@ class AccountsWidget {
   constructor( element ) {
     if (!element) {
       throw new Error('Передан пустой элемент');
-    } else {
-      this.element = element;
-      this.registerEvents();
-      this.update();
     }
+    this.element = element;
+    this.registerEvents();
+    this.update();
   }
 
   /**
@@ -103,30 +102,18 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-    let newAccount = document.createElement('li');
-    newAccount.setAttribute('data-id', item.id);
-    newAccount.classList.add('account');
-    // newAccount.classList.add('active');
+    const htmlString = `
+        <li data-id="${item.id}" class="account">
+            <a href="#">
+                <span>${item.name}</span> / <span>${item.sum} ₽</span>
+            </a>
+        </li>
+    `;
 
-    let a = document.createElement('a');
-    a.setAttribute('href', '#');
-
-    newAccount.appendChild(a);
-
-    let spanBank = document.createElement('span');
-    let spanSum = document.createElement('span');
-
-    let spanBankContent = document.createTextNode(item.name);
-    let spanSumContent = document.createTextNode(item.sum + ' ₽');
-
-    spanBank.appendChild(spanBankContent);
-    spanSum.appendChild(spanSumContent);
-
-    a.appendChild(spanBank);
-    a.appendChild(document.createTextNode(' / '));
-    a.appendChild(spanSum);
-
-    return newAccount;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlString;
+    const newEl = tempDiv.firstElementChild;
+    return newEl;
   }
 
   /**

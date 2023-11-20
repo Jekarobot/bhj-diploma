@@ -156,34 +156,14 @@
       "id": "3"
     },
     {
-      "name": "123",
+      "name": "Сбербанк",
       "user_id": "13oo924lovnk1b2",
-      "id": "13oocawlp2j98l1"
+      "id": "13oo234lp72qapx"
     },
     {
-      "name": "423",
+      "name": "Тинькофф",
       "user_id": "13oo924lovnk1b2",
-      "id": "13oobeolp2jk407"
-    },
-    {
-      "name": "аывфафы",
-      "user_id": "13oo924lovnk1b2",
-      "id": "13oo33olp2jovkf"
-    },
-    {
-      "name": "выфафыв",
-      "user_id": "13oo924lovnk1b2",
-      "id": "13oo668lp2kb1w3"
-    },
-    {
-      "name": "431",
-      "user_id": "13oo924lovnk1b2",
-      "id": "13oocc8lp2kvwwf"
-    },
-    {
-      "name": "123413",
-      "user_id": "13oo924lovnk1b2",
-      "id": "13oocvclp44rwi0"
+      "id": "13oo94lp72qoya"
     }
   ],
   "transactions": [
@@ -321,6 +301,24 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "13ood14lp72qkta",
+      "type": "income",
+      "name": "Друг вернул долг",
+      "sum": 1000,
+      "account_id": "13oo234lp72qapx",
+      "user_id": "13oo924lovnk1b2",
+      "created_at": "2023-11-20T15:41:06.909Z"
+    },
+    {
+      "id": "13oobtclp72qw0k",
+      "type": "expense",
+      "name": "Долг по кредиту",
+      "sum": 500,
+      "account_id": "13oo94lp72qoya",
+      "user_id": "13oo924lovnk1b2",
+      "created_at": "2023-11-20T15:41:21.427Z"
     }
   ]
 }

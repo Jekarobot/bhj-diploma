@@ -13,10 +13,9 @@ class TransactionsPage {
   constructor( element ) {
     if (!element) {
       throw new Error('Передан пустой элемент');
-    } else {
-      this.element = element;
-      this.registerEvents();
     }
+    this.element = element;
+    this.registerEvents();
   }
 
   /**
@@ -39,8 +38,9 @@ class TransactionsPage {
     removeAccoutBtn.addEventListener('click', () => this.removeAccount());
 
     this.element.addEventListener('click', event => {
-      if (event.target.classList.contains('transaction__remove')) {
-        this.removeTransaction(event.target.dataset.id);
+      const removeButton = event.target.closest('.transaction__remove');
+      if (removeButton) {
+        this.removeTransaction(removeButton.dataset.id);
       }
     });
   }
@@ -58,18 +58,14 @@ class TransactionsPage {
     if (!this.lastOptions) {
       return;
     }
-  
+    
     const isConfirmed = confirm('Вы действительно хотите удалить счёт?');
     if (isConfirmed) {
-      Account.remove(this.lastOptions, (err, response) => {
-        if (err) {
-          console.error('Ошибка при удалении счета:', err);
-          return;
-        }
-      
+      Account.remove({id: this.lastOptions.account_id}, (err, response) => {
+        console.log(err, response);
         if (response && response.success) {
-          App.updateWidgets();
-          App.updateForms();
+          this.clear();
+          App.update();
         }
       });
     }
@@ -84,12 +80,7 @@ class TransactionsPage {
   removeTransaction( id ) {
     if (this.lastOptions) {
       if (confirm('Вы действительно хотите удалить эту транзакцию?')) {
-        Transaction.remove(id, (err, response) => {
-          if (err) {
-            console.error('Ошибка при удалении транзакции:', err);
-            return;
-          }
-
+        Transaction.remove({id}, (err, response) => {
           if (response.success) {
             App.update();
           }
@@ -108,11 +99,6 @@ class TransactionsPage {
     if (options) {
       this.lastOptions = options;
       Account.get(this.lastOptions.account_id, (err, response) => {
-        if (err) {
-          console.error('Ошибка в рендере:', err);
-          return;
-        }
-
         if (response.success) {
           this.renderTitle(response.data.name);
         }
@@ -197,9 +183,10 @@ class TransactionsPage {
   renderTransactions(data){
     const contentElement = this.element.querySelector('.content');
 
-    contentElement.innerHTML = '';
-    for (let item of data) {
-      contentElement.innerHTML += this.getTransactionHTML(item);
-    }
+    const htmlString = data.reduce((html, item) => {
+      return html + this.getTransactionHTML(item);
+    }, '');
+
+    contentElement.innerHTML = htmlString;
   }
 }

@@ -26,8 +26,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    let user = localStorage.getItem('user');
-    return JSON.parse(user);
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   /**
@@ -81,7 +80,7 @@ class User {
     createRequest({
       url: this.URL + '/register',
       method: 'POST',
-      data: data,
+      data,
       callback: (err, response) => {
         if (response.success) {
           this.setCurrent(response.user);

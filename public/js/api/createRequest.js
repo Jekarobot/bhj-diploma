@@ -4,25 +4,16 @@
  * */
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
-    const method = options.method || 'GET';
-    let url = options.url || '';
-    const callback = options.callback || function (err, response) {
-      if (err) {
-          console.log(err);
-      } else {
-          console.log(response);
-      }
-    }
-  
-    let data = null;
-  
-    if (options.data) {
+    let { method, url, callback, data } = options;
+    let formData;
+    
+    if (data) {
       if (method === 'GET') {
-        url += '?' + new URLSearchParams(options.data).toString();
+        url += '?' + new URLSearchParams(data).toString();
       } else {
-          data = new FormData();
-          for (let key in options.data) {
-              data.append(key, options.data[key]);
+          formData = new FormData();
+          for (let key in data) {
+              formData.append(key, data[key]);
           }
       }
     }
@@ -38,6 +29,6 @@ const createRequest = (options = {}) => {
       callback(new Error('Network Error'), null);
     };
     
-    xhr.send(data);
+    xhr.send(formData);
   };
   

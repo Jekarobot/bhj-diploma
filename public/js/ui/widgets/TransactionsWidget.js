@@ -14,9 +14,8 @@ class TransactionsWidget {
   constructor( element ) {
     if (!element) {
       throw new Error('Передан пустой элемент');
-    } else {
-      this.element = element;
-    }
+    } 
+    this.element = element;
     this.registerEvents();
   }
   /**
@@ -30,11 +29,11 @@ class TransactionsWidget {
     let expense = this.element.querySelector('.create-expense-button');
 
     income.addEventListener('click', () => {
-      App.getModal('newIncome');
+      App.getModal('newIncome').open();
     });
 
     expense.addEventListener('click', () => {
-      App.getModal('newExpense');
+      App.getModal('newExpense').open();
     });
   }
 }
